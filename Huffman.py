@@ -1,3 +1,5 @@
+from Node import *
+
 table = {}
 string = 'she sells seashells by the seashore'
 
@@ -10,4 +12,12 @@ for char in string:
 
 print(table)
 
-print({k: v for k, v in sorted(table.items(), key=lambda item: item[1])})
+sorted_table = {k: v for k, v in sorted(table.items(), key = lambda item: item[1])}
+print(sorted_table)
+
+root = Node(12)
+root.insert(6)
+root.insert(14)
+root.insert(3)
+
+root.PrintTree()
