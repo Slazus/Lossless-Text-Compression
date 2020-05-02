@@ -1,7 +1,7 @@
 def RLE(string):
     count = 1
     lastChar = string[0]
-    encoded = ""
+    encoded = ''
 
     for char in string[1 : : ]:
         if char == lastChar:
@@ -14,5 +14,5 @@ def RLE(string):
     encoded += (str(count) + lastChar)
     return encoded
 
-encoded_text = RLE("aaaaaaabcccddefghhiiiiiiiiiiiiiiiiiiiiiiiillmnooop")
+encoded_text = RLE('aaaaaaabcccddefghhiiiiiiiiiiiiiiiiiiiiiiiillmnooop')
 print(encoded_text)
