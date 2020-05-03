@@ -15,9 +15,10 @@ print(table)
 sorted_table = {k: v for k, v in sorted(table.items(), key = lambda item: item[1])}
 print(sorted_table)
 
+#for testing purpose! (does not make any sense)
 root = Node(12)
-root.insert(6)
-root.insert(14)
-root.insert(3)
+
+for key, value in sorted_table.items():
+    root.insert(value)
 
 root.PrintTree()
