@@ -14,14 +14,31 @@ def RLE_encode(string):
     encoded += (str(count) + lastChar)
     return encoded
 
-# Totally broken, MUST FIX!!!
+
 def RLE_decode(string):
-    for index, _ in enumerate(string):
-        if index % 2 == 0:
-            for _ in range(int(string[index])):
-                print(string[index+1])
+    count = ''
+    decoded = ''
+    for char in string:
+        if char.isdigit():
+            count += char
+        elif char:
+            #print(char * int(count), end='')
+            decoded += (char * int(count))
+            count = ''
+    return decoded
 
-encoded_text = RLE_encode('aaaaaaabcccddefghhiiiiiiiiiiiiiiiiiiiiiiiillmnooop')
 
-print(encoded_text)
-#print(RLE_decode(encoded_text))
+raw_text = 'aaaaaaabcccddefghhiiiiiiiiiiiiiiiiiiiiiiiillmnooop'
+
+encoded_text = RLE_encode(raw_text)
+decoded_text = RLE_decode(encoded_text)
+
+print()
+print('*' * 80)
+print("Raw text: \t" + raw_text)
+print("Encoded text: \t" + encoded_text)
+print("Decoded text: \t" + decoded_text)
+print('*' * 80)
+
+if raw_text == decoded_text:
+    print('\t\t\t\tSUCCESS!\n')
