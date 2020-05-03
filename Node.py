@@ -1,30 +1,23 @@
 class Node:
-    def __init__(self, data):
-
+    def __init__(self, data, frequency):
         self.left = None
         self.right = None
+        self.parent = None
         self.data = data
+        self.frequency = frequency
 
-    def insert(self, data):
-# Compare the new value with the parent node
-        if self.data:
-            if data < self.data:
-                if self.left is None:
-                    self.left = Node(data)
-                else:
-                    self.left.insert(data)
-            elif data > self.data:
-                if self.right is None:
-                    self.right = Node(data)
-                else:
-                    self.right.insert(data)
+    def addParent(self, node):
+        self.parent = node
+        if not self.parent.left:
+            self.parent.left = self
         else:
-            self.data = data
+            self.parent.right = self
 
-# Print the tree
     def PrintTree(self):
+        print("Data: " + str(self.data) + "\t\t Frequency: " + str(self.frequency)),
+        
         if self.left:
             self.left.PrintTree()
-        print( self.data),
+        
         if self.right:
             self.right.PrintTree()

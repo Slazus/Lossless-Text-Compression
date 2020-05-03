@@ -15,10 +15,22 @@ print(table)
 sorted_table = {k: v for k, v in sorted(table.items(), key = lambda item: item[1])}
 print(sorted_table)
 
-#for testing purpose! (does not make any sense)
-root = Node(12)
+'''
+a = Node(1, 4)
+b = Node(2, 5)
+c = Node(3, 6)
 
-for key, value in sorted_table.items():
-    root.insert(value)
+a.addParent(c) # left(C) = A     (1)
+b.addParent(c) # right(C) = B    (2)
 
-root.PrintTree()
+c.PrintTree()
+'''
+
+nodes = []
+N = len(sorted_table)
+print(sorted_table)
+for k,v in sorted_table.items():
+    print(k, end='')
+    nodes.append(Node(k, v))
+
+print(nodes[1].data)

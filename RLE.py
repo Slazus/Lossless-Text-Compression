@@ -22,7 +22,6 @@ def RLE_decode(string):
         if char.isdigit():
             count += char
         elif char:
-            #print(char * int(count), end='')
             decoded += (char * int(count))
             count = ''
     return decoded
