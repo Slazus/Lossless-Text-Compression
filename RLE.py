@@ -28,7 +28,10 @@ def RLE_decode(string):
 
 
 raw_text = 'aaaaaaabcccddefghhiiiiiiiiiiiiiiiiiiiiiiiillmnooop'
-
+'''
+raw_text = 'mississippi' * 5000
+raw_text = 'mmmmmmssssssiiiii' * 5000
+'''
 encoded_text = RLE_encode(raw_text)
 decoded_text = RLE_decode(encoded_text)
 
@@ -39,5 +42,11 @@ print("Encoded text: \t" + encoded_text)
 print("Decoded text: \t" + decoded_text)
 print('*' * 80)
 
+
+print(len(raw_text))
+print(len(encoded_text))
+
+'''
 if raw_text == decoded_text:
     print('\t\t\t\tSUCCESS!\n')
+'''

@@ -1,4 +1,5 @@
 from queue import PriorityQueue 
+import unicodedata
 
 def huffman_tree_to_table(root, prefix, lookup_table):
     element = root[2]
@@ -63,12 +64,20 @@ def HUFFMAN_encode(string):
     coded = find_replace(string, a)
     return coded
 
-string = 'she sells seashells by the seashore' 
-#string = 'mississippi'
+#string = 'she sells seashells by the seashore' 
+string = 'mississippi' * 5000
 #string = 'Hello world'
 #string = 'aaabc'
+
+print(type(string))
 
 encoded = HUFFMAN_encode(string)
 print(string)
 print(encoded)
-print(len(encoded))
+
+original_bytes = len(string)
+compressed_bits = len(encoded)
+compressed_bytes = int(compressed_bits/8)
+
+print("Original: " + str(original_bytes) + " byte \tCompressed: " + str(compressed_bytes) + " byte")
+print("New file is " + str(int(100 * (compressed_bytes/original_bytes))) + "% lighter")
