@@ -1,6 +1,6 @@
-# A Collection of Lossless methods for Compressing Text
-Compression algorithms included:
+# A Collection of Lossless Algorithms for Compressing Text in Python
+Algorithms included:
 - Run-length encoding (RLE) ✅
-- Huffman coding 🔥
-- LZ77 (WIP) ❌
+- Huffman coding ✅
+- LZ77 (WIP) 🔥
 - LZ78 (WIP) ❌
