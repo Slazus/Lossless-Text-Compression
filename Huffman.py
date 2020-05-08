@@ -1,11 +1,8 @@
 from queue import PriorityQueue 
 
-inv_map = {}
-
 def huffman_tree_to_table(root, prefix, lookup_table):
     element = root[2]
     if type(element) != tuple:
-        # leaf node
         lookup_table[element] = prefix
     else:
         huffman_tree_to_table(element[0], prefix + "0", lookup_table)
@@ -23,7 +20,7 @@ def replaceText(dictionary, text):
     return res
 
 
-def HUFFMAN_encode(string):
+def Huffman_encode(string):
     table = {}
     # Aggiungo i caratteri alla table, associando ad ogni lettera il numero di occorrenze
     for char in string:
@@ -32,7 +29,7 @@ def HUFFMAN_encode(string):
         else:
             table[char] = 1
 
-    print(table)
+    #print(table)
 
     q = PriorityQueue()
     counter_id = 0
@@ -40,9 +37,6 @@ def HUFFMAN_encode(string):
     for k,v in table.items():
         q.put((v, counter_id,k))
         counter_id+=1
-
-    #print(list(q.queue))
-    #print(q.qsize())
 
     while(q.qsize() != 1):
         x = q.get()
@@ -55,13 +49,17 @@ def HUFFMAN_encode(string):
         q.put(z)
 
     root = q.get()
-    print(root)
+    #print(root)
 
     a = huffman_tree_to_table(root, "", {})
-    print(a)
+    #print(a)
 
-    global inv_map
     inv_map = {v: k for k, v in a.items()}
 
     coded = replaceText(a, string)
-    return coded
+    return (coded, inv_map)
+
+
+def Huffman_decode(data, dict):
+    return replaceText(dict, data)
+
