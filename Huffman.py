@@ -29,8 +29,6 @@ def Huffman_encode(string):
         else:
             table[char] = 1
 
-    #print(table)
-
     q = PriorityQueue()
     counter_id = 0
 
@@ -49,10 +47,8 @@ def Huffman_encode(string):
         q.put(z)
 
     root = q.get()
-    #print(root)
 
     a = huffman_tree_to_table(root, "", {})
-    #print(a)
 
     inv_map = {v: k for k, v in a.items()}
 
