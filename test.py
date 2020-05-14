@@ -1,26 +1,40 @@
 from Huffman import *
 from RLE import *
+import random
 
-def OpenTextFile(i):
+def openTextFile(i):
     with open('./test/input' + str(i) + '.txt', 'r') as file:
         string = file.read()
 
     file.close()
     return string
 
-def WriteTextFile(i, data):
+def writeTextFile(i, data):
     with open('./test/output' + str(i) + '.txt', 'w') as file:
         file.write(data)
 
     file.close()
 
 
-def RunTest(i):
-    test = OpenTextFile(i)
+def randomString(length):
+    l = ['a', 'b', 'c']
+
+    string = ''
+    while length > 0:
+        c = random.choice(l)
+        seq = c * random.randint(1, 10)
+        string += seq
+        length -= len(seq)
+
+    return string
+
+
+def runTest(i):
+    test = openTextFile(i)
     print(test)
     compressed = RLE_encode(test)
     print(compressed)
-    WriteTextFile(i, compressed)
+    writeTextFile(i, compressed)
 
     print("Original: " + str(len(test)) + " byte \tCompressed (RLE): " + str(len(compressed)) + " byte")
     print('*' * 100)
@@ -39,4 +53,4 @@ def RunTest(i):
 
 
 
-RunTest(3)
+runTest(3)
