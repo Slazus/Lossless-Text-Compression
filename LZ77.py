@@ -43,11 +43,11 @@ def longest_match(data, search_index, look_index, look_size):
     index = 0
     match = None
 
-    #TODO DA IMPLEMENTARE LA RICERCA ANCHE NELLA PORZIONE DI LOOK-AHEAD BUFFER!
     za_warudo = look_index
     flag = False
 
-    while (offset_i < za_warudo or flag) and (offset_j < (look_index+look_size)):
+    #TODO Da pulire e ottimizzare
+    while (offset_i < za_warudo or flag) and (offset_j < (look_index+look_size) and offset_j < len(data)):
         search_pos = data[offset_i]
         look_pos = data[offset_j]
 
@@ -87,6 +87,7 @@ def LZ77_encode(data, look_size, search_size):
 
     while j < len(data):
         search_buffer = data[i:i+current_search_size]
+        #if j+look_size >= len(data):
         look_buffer = data[j:j+look_size]
 
         #match = longest_match(look_buffer, search_buffer)
@@ -146,8 +147,8 @@ def randomString(length):
     return string
 
 #string = 'abaababaabbaabbbbbbbbb'
-#string = randomString(random.randint(0, 30))
-string = 'ccbbcaccccbbacc'
+string = randomString(random.randint(0, 10))
+#string = 'ccbbcaccccbbacc'
 print(string)
 
 LZ77_encode(string, 6, 5)
@@ -155,7 +156,7 @@ LZ77_encode(string, 6, 5)
 
 
 '''
-ccbbca|ccccb|bacc
+ccbbcacc|ccbba|cc
 
 
 '''
