@@ -56,7 +56,7 @@ def longest_match(data, search_index, look_index, look_size):
             offset_j += 1
             offset_i += 1
 
-            if length > max_len:
+            if length >= max_len:
                 max_len = length
                 index = offset_i-length
                 match = data[offset_i-length:offset_i]
@@ -83,17 +83,14 @@ def LZ77_encode(data, look_size, search_size):
     current_search_size = 0
     i = 0
     j = 0
-    n = 7
+    k = 1
 
-    for k in range(n):
+    while j < len(data):
         search_buffer = data[i:i+current_search_size]
         look_buffer = data[j:j+look_size]
 
         #match = longest_match(look_buffer, search_buffer)
         match = longest_match(data, i, j, look_size)
-
-        if k+1 == 6:
-            print("ciao")
 
         if match[1] is None:
             o = 0
@@ -103,19 +100,14 @@ def LZ77_encode(data, look_size, search_size):
             o = j - match[0]
             sentry = len(match[1])
             if j+sentry >= len(data):
-                #j+l-len = extra
-                #l-extra = piz
-                #piz-1 = l
-                #piz = c
-                #extra = j+sentry-len(data)
-                piz = len(data) - j
-                l = piz-1
+                extra = len(data) - j
+                l = extra-1
                 c = data[len(data)-1]
             else:
                 l = len(match[1])
                 c = data[j + l]
 
-        print('*' * 50 + "Step " + str(k+1) + '*' * 50)
+        print('*' * 50 + "Step " + str(k) + '*' * 50)
         print("Search buffer: " + search_buffer + "\t(" + str(current_search_size) + ")")
         print("Look-ahead buffer: " + look_buffer + "\t(" + str(look_size) + ")")
         triple = (o, l, c)
@@ -138,6 +130,7 @@ def LZ77_encode(data, look_size, search_size):
             current_search_size = search_size
             i = j-search_size
 
+        k+=1
 
 
 def randomString(length):
@@ -152,21 +145,17 @@ def randomString(length):
 
     return string
 
-string = 'abaababaabbaabbbbbbbbb'
-#string = randomString(16)
-
+#string = 'abaababaabbaabbbbbbbbb'
+#string = randomString(random.randint(0, 30))
+string = 'ccbbcaccccbbacc'
 print(string)
 
 LZ77_encode(string, 6, 5)
 
 
 
-# cbbaab|bbcaa|ccccc
-
 '''
-a = longest_match('cbaba', 'aba')[0]
-a = longest_match('ababa', 'aabaabab')
-print(a)
+ccbbca|ccccb|bacc
 
-#r = dataChar-a[0]
+
 '''
