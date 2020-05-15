@@ -33,6 +33,8 @@ def longest_match(look_buffer, search_buffer):
     return (index, match)
 '''
 import random
+from ast import literal_eval as make_tuple
+
 
 def longest_match(data, search_index, look_index, look_size):
     offset_i = search_index
@@ -78,19 +80,20 @@ def longest_match(data, search_index, look_index, look_size):
         
     return (index, match)
 
+verbose = False
 
 def LZ77_encode(data, look_size, search_size):
     current_search_size = 0
     i = 0
     j = 0
-    k = 1
+    step = 1
+    output = ''
 
     while j < len(data):
         search_buffer = data[i:i+current_search_size]
         #if j+look_size >= len(data):
         look_buffer = data[j:j+look_size]
 
-        #match = longest_match(look_buffer, search_buffer)
         match = longest_match(data, i, j, look_size)
 
         if match[1] is None:
@@ -108,12 +111,16 @@ def LZ77_encode(data, look_size, search_size):
                 l = len(match[1])
                 c = data[j + l]
 
-        print('*' * 50 + "Step " + str(k) + '*' * 50)
-        print("Search buffer: " + search_buffer + "\t(" + str(current_search_size) + ")")
-        print("Look-ahead buffer: " + look_buffer + "\t(" + str(look_size) + ")")
+        if verbose:
+            print('*' * 50 + "Step #" + str(step) + '*' * 50)
+            print("Search buffer: " + search_buffer + "\t(" + str(current_search_size) + ")")
+            print("Look-ahead buffer: " + look_buffer + "\t(" + str(look_size) + ")")
+            print(match)
+
         triple = (o, l, c)
-        print(triple)
-        print(match)
+        #print(triple)
+
+        output += (str(triple) + '\n')
 
         #step3: ab|aababa|abbaabbbbbbbbb
         #step4: abaa|babaab|baabbbbbbbbb
@@ -131,7 +138,32 @@ def LZ77_encode(data, look_size, search_size):
             current_search_size = search_size
             i = j-search_size
 
-        k+=1
+        step+=1
+    return output
+
+
+def LZ77_decode(data):
+    data = data.splitlines()
+    output = ''
+
+    for triple in data:
+        t = make_tuple(triple)
+        o = t[0]
+        l = t[1]
+        c = t[2]
+
+        i = len(output) - o
+
+        while l > 0:
+            output += output[i]
+            i += 1
+            l -= 1
+
+        output += c
+
+    return output
+
+        
 
 
 def randomString(length):
@@ -147,16 +179,21 @@ def randomString(length):
     return string
 
 #string = 'abaababaabbaabbbbbbbbb'
-string = randomString(random.randint(0, 10))
-#string = 'ccbbcaccccbbacc'
+#string = randomString(random.randint(0, 10))
+string = 'ccbbcaccccbbacc' * 3
+#string = 'cabracadabrarrarrad'
+
 print(string)
 
-LZ77_encode(string, 6, 5)
+encoded = LZ77_encode(string, 6, 7)
+
+decoded = LZ77_decode(encoded)
+
+print(encoded)
+
+print('*' * 50)
+print(decoded)
 
 
 
-'''
-ccbbcacc|ccbba|cc
 
-
-'''
