@@ -1,37 +1,3 @@
-'''
-def longest_match(look_buffer, search_buffer):
-    offset_i = offset_j = 0
-    length = 0
-    max_len = 0
-    index = 0
-    match = None
-
-    while offset_i < len(search_buffer):
-        search_pos = search_buffer[offset_i]
-        look_pos = look_buffer[offset_j]
-
-        if search_pos == look_pos:
-            length += 1
-            offset_j += 1
-            offset_i += 1
-
-            if length > max_len:
-                max_len = length
-                index = offset_i-length
-                match = search_buffer[offset_i-length:offset_i]
-
-        else:
-            offset_j = 0
-            length = 0
-            search_pos = search_buffer[offset_i]
-            look_pos = look_buffer[offset_j]
-            if search_pos == look_pos:
-                continue
-
-            offset_i +=1
-        
-    return (index, match)
-'''
 import random
 from ast import literal_eval as make_tuple
 
@@ -44,12 +10,9 @@ def longest_match(data, search_index, look_index, look_size):
     max_len = 0
     index = 0
     match = None
-
-    za_warudo = look_index
     flag = False
 
-    #TODO Da pulire e ottimizzare
-    while (offset_i < za_warudo or flag) and (offset_j < (look_index+look_size) and offset_j < len(data)):
+    while (offset_i < look_index or flag) and (offset_j < (look_index+look_size) and offset_j < len(data)):
         search_pos = data[offset_i]
         look_pos = data[offset_j]
 
@@ -63,10 +26,10 @@ def longest_match(data, search_index, look_index, look_size):
                 index = offset_i-length
                 match = data[offset_i-length:offset_i]
 
-            if offset_i >= za_warudo:
+            if offset_i >= look_index:
                 flag = True
 
-        elif offset_i < za_warudo:
+        elif offset_i < look_index:
             offset_j = look_index
             length = 0
             search_pos = data[offset_i]
@@ -80,7 +43,7 @@ def longest_match(data, search_index, look_index, look_size):
         
     return (index, match)
 
-verbose = False
+
 
 def LZ77_encode(data, look_size, search_size):
     current_search_size = 0
@@ -88,6 +51,7 @@ def LZ77_encode(data, look_size, search_size):
     j = 0
     step = 1
     output = ''
+    verbose = False
 
     while j < len(data):
         search_buffer = data[i:i+current_search_size]
@@ -118,15 +82,8 @@ def LZ77_encode(data, look_size, search_size):
             print(match)
 
         triple = (o, l, c)
-        #print(triple)
-
         output += (str(triple) + '\n')
 
-        #step3: ab|aababa|abbaabbbbbbbbb
-        #step4: abaa|babaab|baabbbbbbbbb
-        #step5: abaab|ab|aabbaa|bbbbbbbbb   #BAD!
-
-        #new5_: ab|aabab|aabbaa|bbbbbbbbb   #ALRIGHT!
         j += l+1
 
         if current_search_size+l+1 <= search_size:
@@ -162,38 +119,3 @@ def LZ77_decode(data):
         output += c
 
     return output
-
-        
-
-
-def randomString(length):
-    l = ['a', 'b', 'c']
-
-    string = ''
-    while length > 0:
-        c = random.choice(l)
-        seq = c * random.randint(0, 2)
-        string += seq
-        length -= len(seq)
-
-    return string
-
-#string = 'abaababaabbaabbbbbbbbb'
-#string = randomString(random.randint(0, 10))
-string = 'ccbbcaccccbbacc' * 3
-#string = 'cabracadabrarrarrad'
-
-print(string)
-
-encoded = LZ77_encode(string, 6, 7)
-
-decoded = LZ77_decode(encoded)
-
-print(encoded)
-
-print('*' * 50)
-print(decoded)
-
-
-
-

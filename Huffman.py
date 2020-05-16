@@ -1,17 +1,18 @@
 from queue import PriorityQueue 
 
-def huffman_tree_to_table(root, prefix, lookup_table):
+def tree_to_table(root, prefix, lookup_table):
     element = root[2]
+
     if type(element) != tuple:
         lookup_table[element] = prefix
     else:
-        huffman_tree_to_table(element[0], prefix + "0", lookup_table)
-        huffman_tree_to_table(element[1], prefix + "1", lookup_table)
+        tree_to_table(element[0], prefix + '0', lookup_table)
+        tree_to_table(element[1], prefix + '1', lookup_table)
     return lookup_table
 
 
-def replaceText(dictionary, text):
-    res = ""
+def replaceText(text, dictionary):
+    res = ''
     while text:
         for k in dictionary:
             if text.startswith(k):
@@ -20,10 +21,11 @@ def replaceText(dictionary, text):
     return res
 
 
-def Huffman_encode(string):
+def Huffman_encode(data):
     table = {}
+
     # Aggiungo i caratteri alla table, associando ad ogni lettera il numero di occorrenze
-    for char in string:
+    for char in data:
         if char in table:
             table[char] += 1
         else:
@@ -34,7 +36,7 @@ def Huffman_encode(string):
 
     for k,v in table.items():
         q.put((v, counter_id,k))
-        counter_id+=1
+        counter_id += 1
 
     while(q.qsize() != 1):
         x = q.get()
@@ -42,20 +44,19 @@ def Huffman_encode(string):
 
         sum_freq = (x[0]) + (y[0])
         z = (sum_freq, counter_id,(x,y))
-        counter_id+=1
+        counter_id += 1
         
         q.put(z)
 
     root = q.get()
 
-    a = huffman_tree_to_table(root, "", {})
+    a = tree_to_table(root, '', {})
+    reversed_map = {v: k for k, v in a.items()}
 
-    inv_map = {v: k for k, v in a.items()}
-
-    coded = replaceText(a, string)
-    return (coded, inv_map)
+    encoded = replaceText(data, a)
+    return (encoded, reversed_map)
 
 
 def Huffman_decode(data, dict):
-    return replaceText(dict, data)
+    return replaceText(data, dict)
 

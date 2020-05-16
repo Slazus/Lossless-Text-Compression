@@ -1,9 +1,12 @@
-def RLE_encode(string):
+def RLE_encode(data):
+    if data == '':
+        return ''
+
     count = 1
-    lastChar = string[0]
+    lastChar = data[0]
     encoded = ''
 
-    for char in string[1 : : ]:
+    for char in data[1 : ]:
         if char == lastChar:
             count = count + 1
         else:
@@ -15,10 +18,10 @@ def RLE_encode(string):
     return encoded
 
 
-def RLE_decode(string):
+def RLE_decode(data):
     count = ''
     decoded = ''
-    for char in string:
+    for char in data:
         if char.isdigit():
             count += char
         elif char:
