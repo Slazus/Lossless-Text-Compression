@@ -1,8 +1,8 @@
 from Huffman import *
 from RLE import *
-from LZ77 import *
+from bLZ77 import *
 
-import random
+import random, os
 
 def openTextFile(i):
     with open('./test/input' + str(i) + '.txt', 'r') as file:
@@ -80,15 +80,42 @@ print("Huffman Encoding: " + str(huff_encoded))
 print("LZ77 Encoding: \n" + lz77_encoded)
 '''
 
-
 '''
-with open("./file.png", 'rb') as file:
-    string = file.read()
+os.remove("./compressed")
+os.remove("./uncompressed")
+'''
 
+with open("./file", 'rb') as file:
+    data = file.read()
 file.close()
 
+a = LZ77_encode(data, 600, 500)
+
+a = a.replace(',', '')
+a = a.replace('(', '')
+a = a.replace(')', '')
+
+with open("./compressed", 'w') as file:
+    file.write(a)
+file.close()
+
+print("DONE")
+
+'''
+with open("./compressed", 'r') as file:
+    k = file.read()
+file.close()
+
+b = LZ77_decode(k)
+
+with open("./uncompressed", 'wb') as file:
+    file.write(b)
+file.close()
+
+print("DONE")
+
 print(str(string))
-a = LZ77_encode(str(string), 6, 7)
+
 print(a)
 
 b = LZ77_decode(a)
