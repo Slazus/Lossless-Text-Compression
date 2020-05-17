@@ -1,8 +1,8 @@
 from Huffman import *
 from RLE import *
-from bLZ77 import *
+from LZ77 import *
 
-import random, os
+import random
 
 def openTextFile(i):
     with open('./test/input' + str(i) + '.txt', 'r') as file:
@@ -61,72 +61,21 @@ def runTest(i):
 #string = 'ccbbcaccccbbacc' * 3
 #string = 'cabracadabrarrarrad'
 
-'''
+
 charList = ['a', 'b', 'c']
 string = randomString(10, charList)
-string = 'a' * 10
+string = 'aabaabbba'
 
-#  TODO FIX THIS CASE for Huffman encoding
-#  string = '' and string = 'a'
 
 print("INPUT: " + string)
 
 rle_encoded = RLE_encode(string)
-huff_encoded = Huffman_encode(string)
-lz77_encoded = LZ77_encode(string, 6, 7)
-
 print("RLE Encoding: " + rle_encoded)
+
+huff_encoded = Huffman_encode(string)
 print("Huffman Encoding: " + str(huff_encoded))
+
+
+lz77_encoded = LZ77_encode(string, 6, 7)
 print("LZ77 Encoding: \n" + lz77_encoded)
-'''
 
-'''
-os.remove("./compressed")
-os.remove("./uncompressed")
-'''
-
-with open("./file", 'rb') as file:
-    data = file.read()
-file.close()
-
-a = LZ77_encode(data, 600, 500)
-
-a = a.replace(',', '')
-a = a.replace('(', '')
-a = a.replace(')', '')
-
-with open("./compressed", 'w') as file:
-    file.write(a)
-file.close()
-
-print("DONE")
-
-'''
-with open("./compressed", 'r') as file:
-    k = file.read()
-file.close()
-
-b = LZ77_decode(k)
-
-with open("./uncompressed", 'wb') as file:
-    file.write(b)
-file.close()
-
-print("DONE")
-
-print(str(string))
-
-print(a)
-
-b = LZ77_decode(a)
-print('*' * 50)
-print(b)
-
-with open('./output.png', 'wb') as file:
-    ss = str(string)
-    kek = ss.encode()
-    print(type(kek))
-    file.write(kek)
-
-file.close()
-'''

@@ -4,7 +4,10 @@ def tree_to_table(root, prefix, lookup_table):
     element = root[2]
 
     if type(element) != tuple:
-        lookup_table[element] = prefix
+        if prefix == '':
+            lookup_table[element] = '0'
+        else:
+            lookup_table[element] = prefix
     else:
         tree_to_table(element[0], prefix + '0', lookup_table)
         tree_to_table(element[1], prefix + '1', lookup_table)
@@ -22,6 +25,9 @@ def replaceText(text, dictionary):
 
 
 def Huffman_encode(data):
+    if data == '':
+        return ''
+
     table = {}
 
     # Aggiungo i caratteri alla table, associando ad ogni lettera il numero di occorrenze
@@ -38,7 +44,7 @@ def Huffman_encode(data):
         q.put((v, counter_id,k))
         counter_id += 1
 
-    while(q.qsize() != 1):
+    while(q.qsize() > 1):
         x = q.get()
         y = q.get()
 
