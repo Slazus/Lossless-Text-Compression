@@ -1,11 +1,11 @@
 from Huffman import *
-from RLE import *
+from RLE_b import *
 from LZ77 import *
 
 import random
 
 def openTextFile(i):
-    with open('./test/input' + str(i) + '.txt', 'r') as file:
+    with open('./testcases/' + i, 'r') as file:
         string = file.read()
 
     file.close()
@@ -13,69 +13,36 @@ def openTextFile(i):
 
 
 def writeTextFile(i, data):
-    with open('./test/output' + str(i) + '.txt', 'w') as file:
+    with open('./output/'+ i + '.txt', 'w') as file:
         file.write(data)
 
     file.close()
 
 
-def randomString(length, charList):
-    string = ''
-    while length > 0:
-        c = random.choice(charList)
-        seq = c * random.randint(0, 2)
-        string += seq
-        length -= len(seq)
-
-    return string
 
 
-def runTest(i):
-    test = openTextFile(i)
+def runTest():
+    test = openTextFile('lorem_ipsum.txt')
     print(test)
-    compressed = RLE_encode(test)
-    print(compressed)
-    writeTextFile(i, compressed)
+    rle_compressed = RLE_encode(test)
+    print(rle_compressed)
+    writeTextFile("lorem_ipsum", rle_compressed)
 
-    print("Original: " + str(len(test)) + " byte \tCompressed (RLE): " + str(len(compressed)) + " byte")
+    print("Original: " + str(len(test)) + " byte \tCompressed (RLE): " + str(len(rle_compressed)) + " byte")
     print('*' * 100)
 
-    compressed_pair = Huffman_encode(test)
-    compressed = compressed_pair[0]
-    table = compressed_pair[1]
-    print(compressed)
-    print(table)
-    print("Original: " + str(len(test)) + " byte \tCompressed (HUFFMAN): " + str(int(len(compressed) / 8)) + " byte")   
-    uncompressed = Huffman_decode(compressed, table)
-    print(uncompressed)
-
-    if uncompressed == test:
-        print("Matching!")
 
 
 
-#runTest(3)
+#runTest()
 
-#string = 'abaababaabbaabbbbbbbbb'
-#string = randomString(random.randint(0, 10), charList)
-#string = 'ccbbcaccccbbacc' * 3
-#string = 'cabracadabrarrarrad'
+string = 'AAAAAAAABBCDEEEEFFFFFGHILLLMNNNOOOOOOOOOPPPPPQQRRSSTUUUUVVVVXXYYYZZ'
+ex = RLE_encode(string)
+ex2 = Huffman_encode(string)
+ex3 = LZ77_encode(string, 20, 10)
 
-
-charList = ['a', 'b', 'c']
-string = randomString(10, charList)
-string = 'aabaabbba'
-
-
-print("INPUT: " + string)
-
-rle_encoded = RLE_encode(string)
-print("RLE Encoding: " + rle_encoded)
-
-huff_encoded = Huffman_encode(string)
-print("Huffman Encoding: " + str(huff_encoded))
-
-
-lz77_encoded = LZ77_encode(string, 6, 7)
-print("LZ77 Encoding: \n" + lz77_encoded)
-
+print('Input: ' + string)
+print('Original size: ' + str(len(string)) + ' byte')
+print('RLE size: ' + str(len(ex)) + ' byte')
+print('Huffman size: ' + str(len(ex2[0])) + ' bit \t(' + str(int(len(ex2[0])/8)) + ' byte)')
+print('LZ77 size: ' + str(len(ex3)) + ' byte')
