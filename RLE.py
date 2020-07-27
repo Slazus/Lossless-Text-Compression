@@ -1,3 +1,4 @@
+'''
 def RLE_encode(file):
     count = 1
 
@@ -10,6 +11,29 @@ def RLE_encode(file):
         if byte == b'':
             break
         print(byte)
+        if byte == lastChar:
+            count += 1 
+        else:
+            encoded += bytes([count])
+            encoded += lastChar
+            count = 1
+        lastChar = byte
+
+    encoded += bytes([count])
+    encoded += lastChar
+    return encoded
+'''
+
+def RLE_encode(data):
+    count = 1
+
+    lastChar = data.read(1)
+    encoded = bytearray()
+
+    while(byte := file.read(1)):
+        if byte == b'':
+            break
+        
         if byte == lastChar:
             count += 1 
         else:
@@ -39,10 +63,12 @@ def RLE_decode(data):
 file = open('test.txt', 'rb')
 a = RLE_encode(file)
 
-output = open('test.rle', 'wb')
+compressed_filename = 'test.rle'
+
+output = open(compressed_filename, 'wb')
 output.write(a)
 
-output = open('test.rle', 'rb')
+output = open(compressed_filename, 'rb')
 
 decoded = RLE_decode(output)
 dec_file = open('decoded.txt', 'wb')

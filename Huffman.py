@@ -1,4 +1,5 @@
 from queue import PriorityQueue 
+from bitarray import bitarray
 
 def tree_to_table(root, prefix, lookup_table):
     element = root[2]
@@ -57,12 +58,46 @@ def Huffman_encode(data):
     root = q.get()
 
     a = tree_to_table(root, '', {})
-    reversed_map = {v: k for k, v in a.items()}
 
-    encoded = replaceText(data, a)
-    return (encoded, reversed_map)
+    test1 = {k:bitarray(v) for k,v in a.items()}
+    test2 = {v: k for k, v in a.items()}
+
+    encoded = bitarray()
+    encoded.encode(test1, data)
+    #encoded = replaceText(data, a)
+    return (encoded.to01(), test2)
 
 
 def Huffman_decode(data, dict):
     return replaceText(data, dict)
 
+
+file = open('test.txt', 'rb')
+pr = file.read()
+(a, table) = Huffman_encode(pr.decode("utf-8") )
+print(pr.decode("utf-8") )
+print(table)
+print(a)
+
+output = open('test.rle', 'wb')
+r = bitarray(a)
+t = r.tobytes()
+bit_len = r.length()
+
+output.write(bit_len.to_bytes(4, "little"))
+output.write(t)
+
+output = open('test.rle', 'rb')
+bit_len_read = int.from_bytes(output.read(4), "little")
+print(bit_len_read)
+
+kekw = output.read()
+
+a = bitarray()
+a.frombytes(kekw)
+
+bits = a.to01()[:bit_len_read]
+print(bits)
+
+decoded = Huffman_decode(bits, table)
+print(decoded)

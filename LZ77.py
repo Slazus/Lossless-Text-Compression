@@ -119,3 +119,12 @@ def LZ77_decode(data):
         output += c
 
     return output
+
+
+
+
+inpt = open('test.txt', 'r')
+
+print(LZ77_encode(inpt.read(), 128, 64))
+
+

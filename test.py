@@ -1,6 +1,6 @@
-from Huffman import *
-from RLE_b import *
-from LZ77 import *
+from Huffman import Huffman_encode, Huffman_decode
+from RLE import RLE_encode, RLE_decode
+from LZ77 import LZ77_encode, LZ77_decode
 
 import random
 
@@ -37,12 +37,16 @@ def runTest():
 #runTest()
 
 string = 'AAAAAAAABBCDEEEEFFFFFGHILLLMNNNOOOOOOOOOPPPPPQQRRSSTUUUUVVVVXXYYYZZ'
-ex = RLE_encode(string)
-ex2 = Huffman_encode(string)
+#ex = RLE_encode(string)
+#ex2 = Huffman_encode(string)
 ex3 = LZ77_encode(string, 20, 10)
+print(ex3)
 
+'''
 print('Input: ' + string)
 print('Original size: ' + str(len(string)) + ' byte')
 print('RLE size: ' + str(len(ex)) + ' byte')
 print('Huffman size: ' + str(len(ex2[0])) + ' bit \t(' + str(int(len(ex2[0])/8)) + ' byte)')
+'''
+
 print('LZ77 size: ' + str(len(ex3)) + ' byte')
