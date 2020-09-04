@@ -100,7 +100,6 @@ def LZ77_encode(data, look_size, search_size):
         output += o.to_bytes(byteLen, 'little')
         output += l.to_bytes(byteLen, 'little')
         output += bytes([c])
-        #output += (str(triple) + '\n')
 
         j += l+1
 
@@ -145,7 +144,7 @@ def LZ77_decode(data, number):
     return output
 
 
-SEARCH_BUFFER_SIZE = 65000
+SEARCH_BUFFER_SIZE = 255
 LOOK_BUFFER_SIZE = 128
 
 inpt = open('test.txt', 'rb')
