@@ -3,7 +3,7 @@ def RLE_encode(data):
     #Inizializzo il contatore di occorrenze
     count = 1
 
-    #Inizializzo la variabile che indicherà l'ultimo byte letto
+    #Inizializzo la variabile che indica l'ultimo byte letto
     lastByte = data.read(1)
 
     #Inizializzo l'array di byte
@@ -15,22 +15,22 @@ def RLE_encode(data):
         if byte == b'':
             break
         
-        #Se il byte appena letto è uguale al precedente incremento il contatore delle occorrenze
+        #Se il byte appena letto e' uguale al precedente incremento il contatore delle occorrenze
         if byte == lastByte:
             count += 1   
         else:
-            #Se è diverso allora aggiungo il conteggio di occorrenze come primo byte e
-            #il simbolo come secondo byte, dopodichè resetto il contatore
+            #Se e' diverso allora aggiungo il conteggio di occorrenze come primo byte e
+            #il simbolo come secondo byte, infine resetto il contatore
             encoded += bytes([count])
             encoded += lastByte
             count = 1
         lastByte = byte
 
-    #Aggiungo l'ultima coppia di byte rimanenti
+    #Aggiungo l'ultima coppia di byte rimanenti e finisco
     encoded += bytes([count])
     encoded += lastByte
-
     return encoded
+
 
 
 #Funzione di decodifica di RLE
@@ -51,7 +51,7 @@ def RLE_decode(data):
     return output
 
 
-#Un semplice test per verificare il funzionamento
+#Un semplice test per verificarne il funzionamento
 file = open('./test/test.txt', 'rb')
 a = RLE_encode(file)
 
