@@ -144,16 +144,19 @@ def LZ77_decode(data, number):
     return output
 
 
-SEARCH_BUFFER_SIZE = 255
-LOOK_BUFFER_SIZE = 128
+BOKU_GA_KIRA_DA = 2**11
+SEARCH_BUFFER_SIZE = BOKU_GA_KIRA_DA - 1
+LOOK_BUFFER_SIZE = int(BOKU_GA_KIRA_DA/2)
+#SEARCH_BUFFER_SIZE = 255
+#LOOK_BUFFER_SIZE = 128
 
-inpt = open('test.txt', 'rb')
+inpt = open('./test/a.pdf', 'rb')
 
 encoded = LZ77_encode(inpt.read(), LOOK_BUFFER_SIZE, SEARCH_BUFFER_SIZE)
 inpt.close()
 #print(encoded)
 
-compressed_filename = 'test_w' + str(SEARCH_BUFFER_SIZE) + '.lz77'
+compressed_filename = './test/test_w' + str(SEARCH_BUFFER_SIZE) + '.lz77'
 
 outpt = open(compressed_filename, 'wb')
 outpt.write(encoded)
@@ -162,7 +165,7 @@ outpt.close()
 kekw = open(compressed_filename, 'rb')
 
 decompressed = LZ77_decode(kekw, max(LOOK_BUFFER_SIZE, SEARCH_BUFFER_SIZE))
-dec_file = open('decoded.txt', 'wb')
+dec_file = open('./test/decoded.pdf', 'wb')
 dec_file.write(decompressed)
 dec_file.close()
 
