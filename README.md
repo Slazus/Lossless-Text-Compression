@@ -2,4 +2,4 @@
 Algorithms included:
 - Run-length encoding (RLE) ✅
 - Huffman coding ✅
-- LZ77 (WIP) ✅
+- LZ77 ✅
