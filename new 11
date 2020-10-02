@@ -1,0 +1,34 @@
+Test report (the less, the better)
+
+____WORDS____
+RLE
+-original: 4.234.901 byte		compressed: 8.290.010 byte (!)
+HUFFMAN
+-original: 4.234.901 byte		compressed: 2.299.013 byte
+LZ77
+-original: 4.234.901 byte		compressed: 2.968.620 byte
+
+
+
+
+____BITMAP____
+RLE
+Original size: 11.102 bytes     compressed (RLE): 134 bytes
+Compression Ratio: 82.85074626865672
+Space savings: 98.7930102684201 %
+
+
+___FIREWATCH___
+Original size: 3.724.560 bytes     compressed (RLE): 79.496 bytes
+Compression Ratio: 46.852168662574215
+Space savings: 97.86562708078269 %
+
+
+Original size: 3.724.560 bytes     compressed (HUFFMAN): 838.394 (+ 78) bytes
+
+
+
+Original size: 3.724.560 bytes     compressed (LZ77): 65.870 bytes
+
+
+

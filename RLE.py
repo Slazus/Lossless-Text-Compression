@@ -1,3 +1,5 @@
+import time
+
 #Funzione di codifica di RLE
 def RLE_encode(data):
     #Inizializzo il contatore di occorrenze
@@ -10,7 +12,7 @@ def RLE_encode(data):
     encoded = bytearray()
 
     #Loop in cui continuo a leggere un byte alla volta
-    while(byte := file.read(1)):
+    while(byte := data.read(1)):
         #Ho raggiunto la fine del file: esco dal loop
         if byte == b'':
             break
@@ -21,23 +23,32 @@ def RLE_encode(data):
         else:
             #Se e' diverso allora aggiungo il conteggio di occorrenze come primo byte e
             #il simbolo come secondo byte, infine resetto il contatore
+            while(count > 255):
+                count -= 255
+                encoded += bytes([255])
+                encoded += lastByte
+
             encoded += bytes([count])
             encoded += lastByte
             count = 1
         lastByte = byte
 
     #Aggiungo l'ultima coppia di byte rimanenti e finisco
+    while(count > 255):
+                count -= 255
+                encoded += bytes([255])
+                encoded += lastByte
+
     encoded += bytes([count])
     encoded += lastByte
     return encoded
-
 
 
 #Funzione di decodifica di RLE
 def RLE_decode(data):
     #Inizializzo l'array di byte
     output = bytearray()
-
+    
     #Loop in cui leggo 2 byte alla volta
     while (byte := data.read(2)):
         #Se ho raggiunto la fine del file termino
@@ -46,22 +57,8 @@ def RLE_decode(data):
 
         #Aggiungo al mio array il simbolo appena letto dal secondo byte, ripetuto tante volte quante indicate
         #nel valore del primo byte
-        output += (bytes([byte[1]]) * byte[0])
+        #print("Byte: " + str(byte[0]) + " times " + str(byte[1]))
+        output += (bytes([byte[1]]) * int(byte[0]))
 
     return output
 
-
-#Un semplice test per verificarne il funzionamento
-file = open('./test/test.txt', 'rb')
-a = RLE_encode(file)
-
-compressed_filename = './test/test.rle'
-
-output = open(compressed_filename, 'wb')
-output.write(a)
-
-output = open(compressed_filename, 'rb')
-
-decoded = RLE_decode(output)
-dec_file = open('./test/decoded.txt', 'wb')
-dec_file.write(decoded)

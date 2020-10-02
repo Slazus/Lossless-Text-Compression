@@ -1,19 +1,8 @@
 from queue import PriorityQueue 
 from bitarray import bitarray
+import time
 
-'''
-def OLD_replaceText(text, dictionary):
-    res = bytearray()
-    while text:
-        for k in dictionary:
-            if text.startswith(k):
-                print(k)
-                res += bytes([dictionary[k]])
-                text = text[len(k):]
-    return res
-'''
-
-def tree_to_table(root, prefix, lookup_table):
+def treeToTable(root, prefix, lookup_table):
     element = root[2]
 
     if type(element) != tuple:
@@ -22,12 +11,12 @@ def tree_to_table(root, prefix, lookup_table):
         else:
             lookup_table[element] = prefix
     else:
-        tree_to_table(element[0], prefix + '0', lookup_table)
-        tree_to_table(element[1], prefix + '1', lookup_table)
+        treeToTable(element[0], prefix + '0', lookup_table)
+        treeToTable(element[1], prefix + '1', lookup_table)
     return lookup_table
 
 
-def Huffman_encode(data):
+def encodeBody(data):
     if data == b'':
         return ''
 
@@ -59,7 +48,7 @@ def Huffman_encode(data):
 
     root = q.get()
 
-    a = tree_to_table(root, '', {})
+    a = treeToTable(root, '', {})
 
     test1 = {k:bitarray(v) for k,v in a.items()}
     test2 = {v: k for k, v in a.items()}
@@ -69,45 +58,25 @@ def Huffman_encode(data):
 
     return (encoded.to01(), test2)
 
-def Huffman_decode(data, dictionary):
-    res = bytearray()
-    subs = data[0]
-    l = 1
-    i = 0
-    while data:
-        while subs not in dictionary:
-            l+=1
-            subs = data[:l]
-
-        print(len(res))
-        res += bytes([dictionary[subs]])
-        print(i)
-        i+=1
-        data = data[len(subs):]
-        if data == '':
-            break
-        l = 1
-        subs = data[0]
-
-    return res
 
 
 def encodeTable(table):
     tableString = ''
-    print(table)
 
     for k in table:
         tableString += '{0:08b}'.format(len(k)) + k + '{0:08b}'.format(table[k])
 
     return tableString
 
+
+
 def decodeTable():
-    
-    file = open('dict.huff', 'rb')
+    file = open('./test/table.huff', 'rb')
 
     dictionary = {}
 
     byte = file.read()
+    file.close()
     array = bitarray()
     array.frombytes(byte)
     text = array.to01()
@@ -128,51 +97,61 @@ def decodeTable():
     return dictionary
 
 
-file = open('a.csv', 'rb')
-pr = file.read()
-(a, table) = Huffman_encode(pr)
+def Huffman_encode(file):
+    data = file.read()
+    file.close()
+    (a, table) = encodeBody(data)
+    output = bytearray()
+
+    bodyBits = bitarray(a)
+    bodyBytes = bodyBits.tobytes()
+    bitsLen = bodyBits.length()
+    output += bitsLen.to_bytes(4, "little")
+    output += bodyBytes
+
+    encodedTable = encodeTable(table)
+    tableBits = bitarray(encodedTable)
+    tableBytes = tableBits.tobytes()
+
+    dictOutput = open('./test/table.huff', 'wb')
+    dictOutput.write(tableBytes)
+    dictOutput.close()
+
+    return output
 
 
-compressed_filename = 'test.huff'
+def decodeBody(data, dictionary):
+    res = bytearray()
+    subs = data[0]
+    l = 1
+    
+    while data:
+        while subs not in dictionary:
+            l += 1
+            subs = data[:l]
+            
+        res += bytes([dictionary[subs]])
+        
+        data = data[len(subs):]
+        if data == '':
+            break
+        l = 1
+        subs = data[0]
 
-output = open(compressed_filename, 'wb')
-r = bitarray(a)
-t = r.tobytes()
-bit_len = r.length()
-
-output.write(bit_len.to_bytes(4, "little"))
-output.write(t)
-output.close()
-
-output = open(compressed_filename, 'rb')
-bit_len_read = int.from_bytes(output.read(4), "little")
-print(bit_len_read)
-
-kekw = output.read()
-output.close()
-
-a = bitarray()
-a.frombytes(kekw)
-
-bits = a.to01()[:bit_len_read]
-#print(bits)
-
-#print(table)
-x2 = encodeTable(table)
-new20 = bitarray(x2)
-
-dict_output = open('dict.huff', 'wb')
-dict_output.write(new20.tobytes())
-dict_output.close()
-
-print('*' * 100)
-decode_table = decodeTable()
-print(decode_table)
+    return res
 
 
-decoded = Huffman_decode(bits, decode_table)
-print(decoded)
+def Huffman_decode(file):
+    decodedTable = decodeTable()
+    
+    bitLen = int.from_bytes(file.read(4), "little")    
+    
+    data = file.read()
+    file.close()
+    bits = bitarray()
+    bits.frombytes(data)
+    bitString = bits.to01()[:bitLen]
 
-decompression_output = open('decompressed_huffman.txt', 'wb')
-decompression_output.write(decoded)
-
+    do = decodeBody(bitString, decodedTable)
+    
+    return do

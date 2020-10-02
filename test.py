@@ -1,52 +1,79 @@
+from RLE import *
 from Huffman import Huffman_encode, Huffman_decode
-from RLE import RLE_encode, RLE_decode
 from LZ77 import LZ77_encode, LZ77_decode
 
-import random
-
-def openTextFile(i):
-    with open('./testcases/' + i, 'r') as file:
-        string = file.read()
-
-    file.close()
-    return string
+import sys, os
 
 
-def writeTextFile(i, data):
-    with open('./output/'+ i + '.txt', 'w') as file:
-        file.write(data)
-
-    file.close()
-
-
-
-
-def runTest():
-    test = openTextFile('lorem_ipsum.txt')
-    print(test)
-    rle_compressed = RLE_encode(test)
-    print(rle_compressed)
-    writeTextFile("lorem_ipsum", rle_compressed)
-
-    print("Original: " + str(len(test)) + " byte \tCompressed (RLE): " + str(len(rle_compressed)) + " byte")
-    print('*' * 100)
+if len(sys.argv) < 3:
+    print("Wrong number of arguments")
+    sys.exit(1)
+elif len(sys.argv) > 3:
+    WINDOW_SIZE = sys.argv[3]
+else:
+    WINDOW_SIZE = 256
 
 
+FILENAME = sys.argv[1]
+METHOD = sys.argv[2].upper()
+WITHOUT_EXTENSION = FILENAME.split('.')[0]
+WINDOW_SIZE_STRING = ''
+EXTRA_SIZE = 0
+
+file = open('./test/' + FILENAME, 'rb')
+
+tic = time.perf_counter()
+
+if METHOD == 'RLE':
+    encoded = RLE_encode(file)
+elif METHOD == 'HUFFMAN':
+    encoded = Huffman_encode(file)
+elif METHOD == 'LZ77':
+    encoded = LZ77_encode(file.read(), WINDOW_SIZE)
+
+toc = time.perf_counter()
+time1 = toc-tic
+file.close()
 
 
-#runTest()
+#Se sto usando Huffman devo considerare nella misura della dimensione anche
+#la dimensione della tabella 
+if METHOD == 'HUFFMAN':
+    EXTRA_SIZE = os.stat('./test/table.huff').st_size
+elif METHOD == 'LZ77':
+    WINDOW_SIZE_STRING = '__' + str(WINDOW_SIZE)
 
-string = 'AAAAAAAABBCDEEEEFFFFFGHILLLMNNNOOOOOOOOOPPPPPQQRRSSTUUUUVVVVXXYYYZZ'
-#ex = RLE_encode(string)
-#ex2 = Huffman_encode(string)
-ex3 = LZ77_encode(string, 20, 10)
-print(ex3)
 
-'''
-print('Input: ' + string)
-print('Original size: ' + str(len(string)) + ' byte')
-print('RLE size: ' + str(len(ex)) + ' byte')
-print('Huffman size: ' + str(len(ex2[0])) + ' bit \t(' + str(int(len(ex2[0])/8)) + ' byte)')
-'''
+compressed_filename = './test/' + WITHOUT_EXTENSION + WINDOW_SIZE_STRING + '.' + METHOD.lower()
+output_compressed = open(compressed_filename, 'wb')
+output_compressed.write(encoded)
+output_compressed.close()
 
-print('LZ77 size: ' + str(len(ex3)) + ' byte')
+input_compressed = open(compressed_filename, 'rb')
+
+tic = time.perf_counter()
+if METHOD == 'RLE':
+    decoded = RLE_decode(input_compressed)
+elif METHOD == 'HUFFMAN':
+    decoded = Huffman_decode(input_compressed)
+elif METHOD == 'LZ77':
+    decoded = LZ77_decode(input_compressed, WINDOW_SIZE)
+
+toc = time.perf_counter()
+time2 = toc-tic
+
+decoded_file = open('./test/uncompressed_'+ METHOD + '__' + FILENAME, 'wb')
+decoded_file.write(decoded)
+decoded_file.close()
+input_compressed.close()
+
+compressed_size = len(encoded) + EXTRA_SIZE
+
+print('_' * 100)
+print('Original size: ' + str(len(decoded)) + ' bytes')
+print('Compressed size (' + METHOD + '): ' + str(compressed_size) + ' bytes\n' )
+print('Compression ratio: ' + '{:.2f}'.format(len(decoded)/compressed_size))
+print('Space savings: ' +  '{:.2f}'.format((1 - (compressed_size/len(decoded)))* 100) + ' %\n')
+print('Compression time: ' + '{:.4f}'.format(time1))
+print('Uncompression time: ' + '{:.4f}'.format(time2))
+print('_' * 100)
