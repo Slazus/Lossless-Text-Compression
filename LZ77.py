@@ -51,13 +51,14 @@ def getNeededByte(x):
 
 
 
-def LZ77_encode(data, windowSize):
+def LZ77_encode(file, windowSize):
+    data = file.read()
+
     current_search_size = 0
     search_max_index = math.ceil(windowSize/2)
     look_max_index = search_max_index
     i = 0
     j = 0
-    step = 1
     output = bytearray()
 
     byteLenO = getNeededByte(search_max_index)
@@ -97,8 +98,6 @@ def LZ77_encode(data, windowSize):
         if j > (search_max_index-1):
             current_search_size = search_max_index
             i = j-search_max_index
-
-        step += 1
 
     return output
 

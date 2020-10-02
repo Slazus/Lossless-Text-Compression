@@ -9,7 +9,7 @@ if len(sys.argv) < 3:
     print("Wrong number of arguments")
     sys.exit(1)
 elif len(sys.argv) > 3:
-    WINDOW_SIZE = sys.argv[3]
+    WINDOW_SIZE = int(sys.argv[3])
 else:
     WINDOW_SIZE = 256
 
@@ -29,10 +29,10 @@ if METHOD == 'RLE':
 elif METHOD == 'HUFFMAN':
     encoded = Huffman_encode(file)
 elif METHOD == 'LZ77':
-    encoded = LZ77_encode(file.read(), WINDOW_SIZE)
+    encoded = LZ77_encode(file, WINDOW_SIZE)
 
 toc = time.perf_counter()
-time1 = toc-tic
+compression_time = toc-tic
 file.close()
 
 
@@ -60,7 +60,7 @@ elif METHOD == 'LZ77':
     decoded = LZ77_decode(input_compressed, WINDOW_SIZE)
 
 toc = time.perf_counter()
-time2 = toc-tic
+uncompression_time = toc-tic
 
 decoded_file = open('./test/uncompressed_'+ METHOD + '__' + FILENAME, 'wb')
 decoded_file.write(decoded)
@@ -74,6 +74,6 @@ print('Original size: ' + str(len(decoded)) + ' bytes')
 print('Compressed size (' + METHOD + '): ' + str(compressed_size) + ' bytes\n' )
 print('Compression ratio: ' + '{:.2f}'.format(len(decoded)/compressed_size))
 print('Space savings: ' +  '{:.2f}'.format((1 - (compressed_size/len(decoded)))* 100) + ' %\n')
-print('Compression time: ' + '{:.4f}'.format(time1))
-print('Uncompression time: ' + '{:.4f}'.format(time2))
+print('Compression time: ' + '{:.4f}'.format(compression_time) + " seconds")
+print('Uncompression time: ' + '{:.4f}'.format(uncompression_time) + " seconds")
 print('_' * 100)
