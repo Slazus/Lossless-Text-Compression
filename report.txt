@@ -1,0 +1,244 @@
+Test:
+-BOARD
+-COVID
+-DESKTOP
+-F
+-LOREM_IPSUM
+-LINUX CODE X
+-DIZIONARIO X
+
+
+
+
+
+
+
+lorem_ipsum.txt RLE
+____________________________________________________________________________________________________
+Original size: 100168 bytes
+Compressed size (RLE): 196988 bytes
+
+Compression ratio: 0.51
+Space savings: -96.66 %
+
+Compression time: 0.0416 seconds
+Uncompression time: 0.0509 seconds
+____________________________________________________________________________________________________
+
+
+
+lorem_ipsum.txt HUFFMAN
+____________________________________________________________________________________________________
+Original size: 100168 bytes
+Compressed size (HUFFMAN): 53399 bytes
+
+Compression ratio: 1.88
+Space savings: 46.69 %
+
+Compression time: 0.0228 seconds
+Uncompression time: 1.8256 seconds
+____________________________________________________________________________________________________
+
+
+lorem_ipsum.txt LZ77 256
+____________________________________________________________________________________________________
+Original size: 100168 bytes
+Compressed size (LZ77): 106308 bytes
+
+Compression ratio: 0.94
+Space savings: -6.13 %
+
+Compression time: 1.9038 seconds
+Uncompression time: 0.0572 seconds
+____________________________________________________________________________________________________
+
+
+
+lorem_ipsum.txt LZ77 4096
+____________________________________________________________________________________________________
+Original size: 100168 bytes
+Compressed size (LZ77): 82025 bytes
+
+Compression ratio: 1.22
+Space savings: 18.11 %
+
+Compression time: 13.5601 seconds
+Uncompression time: 0.0730 seconds
+____________________________________________________________________________________________________
+
+
+
+lorem_ipsum.txt LZ77 65536
+____________________________________________________________________________________________________
+Original size: 100168 bytes
+Compressed size (LZ77): 55670 bytes
+
+Compression ratio: 1.80
+Space savings: 44.42 %
+
+Compression time: 127.5205 seconds
+Uncompression time: 0.0419 seconds
+____________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+sysctl.c RLE
+____________________________________________________________________________________________________
+Original size: 82127 bytes
+Compressed size (RLE): 155066 bytes
+
+Compression ratio: 0.53
+Space savings: -88.81 %
+
+Compression time: 0.0323 seconds
+Uncompression time: 0.0401 seconds
+____________________________________________________________________________________________________
+
+
+
+
+
+sysctl.c HUFFMAN
+____________________________________________________________________________________________________
+Original size: 82127 bytes
+Compressed size (HUFFMAN): 54913 bytes
+
+Compression ratio: 1.50
+Space savings: 33.14 %
+
+Compression time: 0.0217 seconds
+Uncompression time: 2.0188 seconds
+____________________________________________________________________________________________________
+
+
+
+sysctl.c LZ77 256
+____________________________________________________________________________________________________
+Original size: 82127 bytes
+Compressed size (LZ77): 78585 bytes
+
+Compression ratio: 1.05
+Space savings: 4.31 %
+
+Compression time: 1.8194 seconds
+Uncompression time: 0.0442 seconds
+____________________________________________________________________________________________________
+
+
+
+
+
+sysctl.c LZ77 4096
+____________________________________________________________________________________________________
+Original size: 82127 bytes
+Compressed size (LZ77): 44320 bytes
+
+Compression ratio: 1.85
+Space savings: 46.03 %
+
+Compression time: 6.9805 seconds
+Uncompression time: 0.0310 seconds
+____________________________________________________________________________________________________
+
+
+
+
+
+sysctl.c LZ77 65536
+____________________________________________________________________________________________________
+Original size: 82127 bytes
+Compressed size (LZ77): 30885 bytes
+
+Compression ratio: 2.66
+Space savings: 62.39 %
+
+Compression time: 61.3362 seconds
+Uncompression time: 0.0328 seconds
+____________________________________________________________________________________________________
+
+
+
+
+
+
+
+
+words.txt RLE
+____________________________________________________________________________________________________
+Original size: 622345 bytes
+Compressed size (RLE): 1195656 bytes
+
+Compression ratio: 0.52
+Space savings: -92.12 %
+
+Compression time: 0.2546 seconds
+Uncompression time: 0.2893 seconds
+____________________________________________________________________________________________________
+
+
+
+words.txt HUFFMAN
+____________________________________________________________________________________________________
+Original size: 622345 bytes
+Compressed size (HUFFMAN): 321734 bytes
+
+Compression ratio: 1.93
+Space savings: 48.30 %
+
+Compression time: 0.1215 seconds
+Uncompression time: 396.6701 seconds
+____________________________________________________________________________________________________
+
+
+
+words.txt LZ77 256
+____________________________________________________________________________________________________
+Original size: 622345 bytes
+Compressed size (LZ77): 249819 bytes
+
+Compression ratio: 2.49
+Space savings: 59.86 %
+
+Compression time: 4.6498 seconds
+Uncompression time: 0.2684 seconds
+____________________________________________________________________________________________________
+
+
+
+
+
+
+words.txt LZ77 4096
+____________________________________________________________________________________________________
+Original size: 622345 bytes
+Compressed size (LZ77): 377980 bytes
+
+Compression ratio: 1.65
+Space savings: 39.27 %
+
+Compression time: 71.1069 seconds
+Uncompression time: 0.2525 seconds
+____________________________________________________________________________________________________
+
+
+
+
+
+
+
+words.txt LZ77 65536
+____________________________________________________________________________________________________
+Original size: 622345 bytes
+Compressed size (LZ77): 360065 bytes
+
+Compression ratio: 1.73
+Space savings: 42.14 %
+
+Compression time: 1048.3290 seconds
+Uncompression time: 0.2562 seconds
+____________________________________________________________________________________________________

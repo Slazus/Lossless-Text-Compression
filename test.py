@@ -28,7 +28,7 @@ if METHOD == 'RLE':
     encoded = RLE_encode(file)
 elif METHOD == 'HUFFMAN':
     encoded = Huffman_encode(file)
-elif METHOD == 'LZ77':
+else:
     encoded = LZ77_encode(file, WINDOW_SIZE)
 
 toc = time.perf_counter()
@@ -56,7 +56,7 @@ if METHOD == 'RLE':
     decoded = RLE_decode(input_compressed)
 elif METHOD == 'HUFFMAN':
     decoded = Huffman_decode(input_compressed)
-elif METHOD == 'LZ77':
+else:
     decoded = LZ77_decode(input_compressed, WINDOW_SIZE)
 
 toc = time.perf_counter()

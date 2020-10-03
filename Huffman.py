@@ -124,7 +124,6 @@ def decodeBody(data, dictionary):
     res = bytearray()
     subs = data[0]
     l = 1
-    
     while data:
         while subs not in dictionary:
             l += 1
