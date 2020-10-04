@@ -1,8 +1,7 @@
 from RLE import *
 from Huffman import Huffman_encode, Huffman_decode
 from LZ77 import LZ77_encode, LZ77_decode
-
-import sys, os
+import sys, os, time
 
 
 if len(sys.argv) < 3:

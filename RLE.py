@@ -1,5 +1,3 @@
-import time
-
 #Funzione di codifica di RLE
 def RLE_encode(data):
     #Inizializzo il contatore di occorrenze
@@ -21,8 +19,9 @@ def RLE_encode(data):
         if byte == lastByte:
             count += 1   
         else:
-            #Se e' diverso allora aggiungo il conteggio di occorrenze come primo byte e
-            #il simbolo come secondo byte, infine resetto il contatore
+            #Altrimenti verifico il contatore: se e' maggiore della soglia massima
+            #iterativamente aggiungo la coppia <occorrenze, simbolo> con occorrenze
+            #al massimo pari a 255, fino al consumarle tutte
             while(count > 255):
                 count -= 255
                 encoded += bytes([255])
@@ -31,9 +30,10 @@ def RLE_encode(data):
             encoded += bytes([count])
             encoded += lastByte
             count = 1
+        #Memorizzo l'ultimo byte letto    
         lastByte = byte
 
-    #Aggiungo l'ultima coppia di byte rimanenti e finisco
+    #Stessa cosa di sopra con le coppie rimanenti
     while(count > 255):
                 count -= 255
                 encoded += bytes([255])

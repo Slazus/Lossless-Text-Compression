@@ -1,5 +1,4 @@
-import random, math
-
+import math
 
 def longest_match(data, search_index, look_index, look_size):
     offset_i = search_index
@@ -61,7 +60,7 @@ def LZ77_encode(file, windowSize):
     j = 0
     output = bytearray()
 
-    byteLenO = getNeededByte(search_max_index)
+    byteLenO = getNeededByte(search_max_index+1)
     byteLenL = getNeededByte(windowSize)
 
     while j < len(data):
@@ -84,6 +83,7 @@ def LZ77_encode(file, windowSize):
                 l = len(match[1])
                 c = data[j + l]
 
+        
         output += o.to_bytes(byteLenO, 'little')
         output += l.to_bytes(byteLenL, 'little')
         output += bytes([c])
@@ -105,7 +105,7 @@ def LZ77_encode(file, windowSize):
 
 def LZ77_decode(data, windowSize):
     output = bytearray()
-    byteLenO = getNeededByte(math.ceil(windowSize/2))
+    byteLenO = getNeededByte(math.ceil(windowSize/2)+1)
     byteLenL = getNeededByte(windowSize)
 
     while (byte := data.read(byteLenO+byteLenL+1)):

@@ -1,6 +1,5 @@
 from queue import PriorityQueue 
 from bitarray import bitarray
-import time
 
 def treeToTable(root, prefix, lookup_table):
     element = root[2]
