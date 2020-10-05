@@ -59,6 +59,5 @@ def RLE_decode(data):
         #nel valore del primo byte
         #print("Byte: " + str(byte[0]) + " times " + str(byte[1]))
         output += (bytes([byte[1]]) * int(byte[0]))
-
     return output
 
